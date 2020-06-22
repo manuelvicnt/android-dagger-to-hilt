@@ -31,13 +31,13 @@ import dagger.hilt.android.components.ActivityComponent
  * @Inject tells Dagger how to provide instances of this type. Dagger also knows
  * that UserDataRepository is a dependency.
  */
-class MainViewModel @AssistedInject constructor(
+class MainPresenter @AssistedInject constructor(
     @Assisted private val userDataRepository: UserDataRepository
 ) {
 
     @AssistedInject.Factory
     interface Factory {
-        fun create(userDataRepository: UserDataRepository): MainViewModel
+        fun create(userDataRepository: UserDataRepository): MainPresenter
     }
 
     val welcomeText: String

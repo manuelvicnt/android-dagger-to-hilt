@@ -24,14 +24,14 @@ import com.squareup.inject.assisted.AssistedInject
 /**
  * SettingsViewModel is the ViewModel that [SettingsActivity] uses to handle complex logic.
  */
-class SettingsViewModel @AssistedInject constructor(
+class SettingsPresenter @AssistedInject constructor(
     @Assisted private val userDataRepository: UserDataRepository,
     private val userManager: UserManager
 ) {
 
     @AssistedInject.Factory
     interface Factory {
-        fun create(userDataRepository: UserDataRepository): SettingsViewModel
+        fun create(userDataRepository: UserDataRepository): SettingsPresenter
     }
 
     fun refreshNotifications() {

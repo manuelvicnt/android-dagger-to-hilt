@@ -23,37 +23,35 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.android.dagger.R
 import com.example.android.dagger.login.LoginActivity
 import com.example.android.dagger.main.MainActivity
-import com.example.android.dagger.main.MainViewModel
 import com.example.android.dagger.user.UserManager
 import dagger.hilt.EntryPoints
 import dagger.hilt.android.AndroidEntryPoint
-import dagger.hilt.android.EntryPointAccessors
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class SettingsActivity : AppCompatActivity() {
 
-    @Inject lateinit var viewModelFactory: SettingsViewModel.Factory
+    @Inject lateinit var presenterFactory: SettingsPresenter.Factory
     @Inject lateinit var userManager: UserManager
 
-    private lateinit var settingsViewModel: SettingsViewModel
+    private lateinit var settingsPresenter: SettingsPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
 
         val entryPoint = EntryPoints.get(userManager, MainActivity.UserComponentEntryPoint::class.java)
-        settingsViewModel = viewModelFactory.create(entryPoint.userDataRepository())
+        settingsPresenter = presenterFactory.create(entryPoint.userDataRepository())
 
         setupViews()
     }
 
     private fun setupViews() {
         findViewById<Button>(R.id.refresh).setOnClickListener {
-            settingsViewModel.refreshNotifications()
+            settingsPresenter.refreshNotifications()
         }
         findViewById<Button>(R.id.logout).setOnClickListener {
-            settingsViewModel.logout()
+            settingsPresenter.logout()
             val intent = Intent(this, LoginActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or
                     Intent.FLAG_ACTIVITY_CLEAR_TASK or
