@@ -14,39 +14,37 @@
  * limitations under the License.
  */
 
-package com.example.android.dagger.settings
+package com.example.android.dagger.main
 
 import com.example.android.dagger.user.UserDataRepository
-import com.example.android.dagger.user.UserManager
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mockito.mock
-import org.mockito.Mockito.verify
+import org.mockito.Mockito.`when` as whenever
 
-class SettingsViewModelTest {
+class MainPresenterTest {
 
-    private lateinit var userManager: UserManager
     private lateinit var userDataRepository: UserDataRepository
-    private lateinit var viewModel: SettingsViewModel
+    private lateinit var presenter: MainPresenter
 
     @Before
     fun setup() {
-        userManager = mock(UserManager::class.java)
         userDataRepository = mock(UserDataRepository::class.java)
-        viewModel = SettingsViewModel(userDataRepository, userManager)
+        presenter = MainPresenter(userDataRepository)
     }
 
     @Test
-    fun `Refresh notifications works as expected`() {
-        viewModel.refreshNotifications()
+    fun `Welcome text returns right text`() {
+        whenever(userDataRepository.username).thenReturn("username")
 
-        verify(userDataRepository).refreshUnreadNotifications()
+        assertEquals("Hello username!", presenter.welcomeText)
     }
 
     @Test
-    fun `Logout works as expected`() {
-        viewModel.logout()
+    fun `Notifications text returns right text`() {
+        whenever(userDataRepository.unreadNotifications).thenReturn(5)
 
-        verify(userManager).logout()
+        assertEquals("You have 5 unread notifications", presenter.notificationsText)
     }
 }
