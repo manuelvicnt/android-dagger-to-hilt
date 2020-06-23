@@ -25,23 +25,14 @@ import com.example.android.dagger.R
 import com.example.android.dagger.login.LoginActivity
 import com.example.android.dagger.registration.RegistrationActivity
 import com.example.android.dagger.settings.SettingsActivity
-import com.example.android.dagger.user.UserComponent
-import com.example.android.dagger.user.UserDataRepository
+import com.example.android.dagger.user.UserComponentEntryPoint
 import com.example.android.dagger.user.UserManager
-import dagger.hilt.EntryPoint
 import dagger.hilt.EntryPoints
-import dagger.hilt.InstallIn
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
-
-    @InstallIn(UserComponent::class)
-    @EntryPoint
-    interface UserComponentEntryPoint {
-        fun userDataRepository(): UserDataRepository
-    }
 
     @Inject lateinit var userManager: UserManager
     @Inject lateinit var presenterFactory: MainPresenter.Factory
@@ -67,7 +58,8 @@ class MainActivity : AppCompatActivity() {
         } else {
             setContentView(R.layout.activity_main)
 
-            val entryPoint = EntryPoints.get(userManager, UserComponentEntryPoint::class.java)
+            val entryPoint =
+                EntryPoints.get(userManager.userComponent!!, UserComponentEntryPoint::class.java)
             mainPresenter = presenterFactory.create(entryPoint.userDataRepository())
             setupViews()
         }

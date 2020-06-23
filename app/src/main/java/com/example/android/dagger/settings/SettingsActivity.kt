@@ -22,7 +22,7 @@ import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import com.example.android.dagger.R
 import com.example.android.dagger.login.LoginActivity
-import com.example.android.dagger.main.MainActivity
+import com.example.android.dagger.user.UserComponentEntryPoint
 import com.example.android.dagger.user.UserManager
 import dagger.hilt.EntryPoints
 import dagger.hilt.android.AndroidEntryPoint
@@ -40,7 +40,8 @@ class SettingsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
 
-        val entryPoint = EntryPoints.get(userManager, MainActivity.UserComponentEntryPoint::class.java)
+        val entryPoint =
+            EntryPoints.get(userManager.userComponent!!, UserComponentEntryPoint::class.java)
         settingsPresenter = presenterFactory.create(entryPoint.userDataRepository())
 
         setupViews()

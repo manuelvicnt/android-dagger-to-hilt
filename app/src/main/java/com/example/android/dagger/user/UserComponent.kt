@@ -17,6 +17,8 @@
 package com.example.android.dagger.user
 
 import dagger.hilt.DefineComponent
+import dagger.hilt.EntryPoint
+import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
 
 // Scope annotation that the UserComponent uses
@@ -31,4 +33,10 @@ interface UserComponent {
     interface Factory {
         fun create(): UserComponent
     }
+}
+
+@InstallIn(UserComponent::class)
+@EntryPoint
+interface UserComponentEntryPoint {
+    fun userDataRepository(): UserDataRepository
 }
